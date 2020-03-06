@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login</title>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+<script src="node_modules/firebaseui/dist/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="node_modules/firebaseui/dist/firebaseui.css" />
+<script src="bower_components/firebaseui/dist/firebaseui.js"></script>
+<link type="text/css" rel="stylesheet" href="bower_components/firebaseui/dist/firebaseui.css" />
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyCI6hI7q1I6gFX--J3bxh8ZFT_B0VJwTL4",
+    authDomain: "sgp-website-project.firebaseapp.com",
+    databaseURL: "https://sgp-website-project.firebaseio.com",
+    projectId: "sgp-website-project",
+    storageBucket: "sgp-website-project.appspot.com",
+    messagingSenderId: "963241797929",
+    appId: "1:963241797929:web:e1e2518a5eb70c93f92f38",
+    measurementId: "G-L73XPJGB9V"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics(); 
+</script>
+</head>
+<body>
+<div id="firebaseui-auth-container"></div>
+<div id="loader">Loading...</div>
+	<script src="assets/js/login.js"></script>
+	<script>
+      firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          var userID = firebase.auth().currentUser.uid;
+          firebase.database().ref('Users/' + userID).once('value').then(function(snapshot){
+            if(snapshot.val())
+            {
+            }
+          });
+      }
+  });
+
+    </script>
+</body>
+</html>

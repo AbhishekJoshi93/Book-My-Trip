@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Book My Trip</title>
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="assets/css/animate.css">
+    <link rel="stylesheet" href="assets/fonts/ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/fonts/flaticon/font/flaticon.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="assets/fonts/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="assets/css/select2.css">
+    <link rel="stylesheet" href="assets/css/helpers.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-storage.js"></script>
+<script src="http://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyCI6hI7q1I6gFX--J3bxh8ZFT_B0VJwTL4",
+    authDomain: "sgp-website-project.firebaseapp.com",
+    databaseURL: "https://sgp-website-project.firebaseio.com",
+    projectId: "sgp-website-project",
+    storageBucket: "sgp-website-project.appspot.com",
+    messagingSenderId: "963241797929",
+    appId: "1:963241797929:web:e1e2518a5eb70c93f92f38",
+    measurementId: "G-L73XPJGB9V"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics(); 
+</script>
+  <script>
+    $(document).ready(function(){
+      $(".button").click(function(){
+        var name = $(this).attr("data-filter");
+        if(name == "all"){
+          $(".filter").show("2000");
+        }
+        else{
+          $(".filter").not("."+name).hide("2000");
+          $(".filter").filter("."+name).show("2000");
+        }
+
+      });
+      $(".navigation a").click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    });
+  </script>
+  <style>
+
+    body{
+      font-family: arial;
+      background-color: #ccc;
+    }
+    .navigation{
+      padding: 25px 0px;
+    }
+    .navigation a{
+      margin-right: 5px;
+      text-decoration: none;
+      border: 1px solid #00CA4C;
+      padding: 10px 25px;
+      border-radius: 50px;
+      color: #00CA4C;
+    }
+    .navigation a.active{
+      background-color: #00CA4C;
+      border-color: #eee;
+      color: #fff;
+    }
+    .ImageContainer div{
+      display: inline-block;
+    }
+    img{
+      margin:5px;
+      width: 400px;
+      height: 250px; 
+    }
+    .btn{
+      background-color: #790604;
+      box-shadow: none;
+    }
+    a{
+      color: #790604;
+    }
+  </style>
+  </head>
+  <body data-spy="scroll" data-target="#probootstrap-navbar" data-offset="200">
+  
+
+    <nav class="navbar navbar-expand-lg navbar-dark probootstrap_navbar" id="probootstrap-navbar">
+      <div class="container">
+        <a class="navbar-brand" href="#">Book My Trip</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#probootstrap-menu" aria-controls="probootstrap-menu" aria-expanded="false" aria-label="Toggle navigation">
+          <span><i class="ion-navicon"></i></span>
+        </button>
+        <div class="collapse navbar-collapse" id="probootstrap-menu">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link" href="#section-home">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="index2.html" id="tochange">Login/SignUp</a></li>
+            <li class="nav-item"><a class="nav-link" onclick="logOut()" href="index2.html">SignOut</a></li>
+            <li class="nav-item"><a class="nav-link" href="#section-city-guides">Top Places</a></li>
+            <li class="nav-item"><a class="nav-link" href="#section-services">Services</a></li>
+            <li class="nav-item"><a class="nav-link" href="#come">Gallery</a></li>
+            <li class="nav-item"><a class="nav-link" href="#section-contact">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <section class="probootstrap-cover overflow-hidden relative"  style="background-image: url('assets/images/bg.jfif');"  id="section-home">
+      <div class="overlay"></div>
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-md">
+            <h2 class="heading mb-2 display-4 font-light probootstrap-animate">Explore The World With Ease</h2> 
+            <p class="lead mb-5 probootstrap-animate">
+            </p>
+              <a href="index.html" role="button" class="btn btn-primary p-3 mr-3 pl-5 pr-5 text-uppercase d-lg-inline d-md-inline d-sm-block d-block mb-3">Book My Trip</a> 
+            </p>
+          </div> 
+          <div class="col-md probootstrap-animate">
+            <form action="#" class="probootstrap-form" id="databasestr"> 
+              <div class="form-group">
+                <div class="row mb-3">
+                  <div class="col-md">
+                    <div class="form-group">
+                      <label for="id_label_single">From</label>
+
+                      <label for="id_label_single" style="width: 100%;">
+                        <select class="js-example-basic-single js-states form-control" id="place1" id="id_label_single" style="width: 100%;">
+                          <option value="India">India</option>
+                          <option value="Australia">Australia</option>
+                          <option value="Japan">Japan</option>
+                          <option value="United States">United States</option>
+                          <option value="Brazil">Brazil</option>
+                          <option value="China">China</option>
+                          <option value="Philippines">Philippines</option>
+                          <option value="Malaysia">Malaysia</option>
+                          <option value="Canada">Canada</option>
+                          <option value="Chile">Chile</option>
+                        </select>
+                      </label>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <div class="form-group">
+                      <label for="id_label_single2">To</label>
+                      <div class="probootstrap_select-wrap">
+                        <label for="id_label_single2" style="width: 100%;">
+                        <select class="js-example-basic-single js-states form-control" id="place2" id="id_label_single2" style="width: 100%;">
+                          <option value="China">China</option>
+                          <option value="Australia">Australia</option>
+                          <option value="Japan">Japan</option>
+                          <option value="United States">United States</option>
+                          <option value="Brazil">Brazil</option>
+                          <option value="India">India</option>
+                          <option value="Philippines">Philippines</option>
+                          <option value="Malaysia">Malaysia</option>
+                          <option value="Canada">Canada</option>
+                          <option value="Chile">Chile</option>
+                        </select>
+                      </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md">
+                    <div class="form-group">
+                      <label for="probootstrap-date-departure">Departure</label>
+                      <div class="probootstrap-date-wrap">
+                        <span class="icon ion-calendar"></span> 
+                        <input type="date" id="date1" id="probootstrap-date-departure" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md">
+                    <div class="form-group">
+                      <label for="probootstrap-date-arrival">Arrival</label>
+                      <div class="probootstrap-date-wrap">
+                        <span class="icon ion-calendar"></span> 
+                        <input type="date" id="date2" id="probootstrap-date-arrival" class="form-control" placeholder="">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md">
+                    <label for="round" class="mr-5"><input type="radio" id="round" name="direction">  Twoway</label>
+                    <label for="oneway"><input type="radio" id="oneway" name="direction">  Oneway</label>
+                  </div>
+                  <div class="col-md">
+                    <input type="submit" id="submitstore" value="Submit" class="btn btn-primary btn-block">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="probootstrap_section" id="section-city-guides">
+      <div class="container">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Top Places Around The World</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-3 col-md-6 probootstrap-animate mb-3">
+            <a href="#" class="probootstrap-thumbnail">
+              <img src="assets/images/img_1.jpg" class="img-fluid">
+                <h3>Buena</h3>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-6 probootstrap-animate mb-3">
+            <a href="#" class="probootstrap-thumbnail">
+              <img src="assets/images/img_2.jpg" class="img-fluid">
+              <h3>Greece</h3>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-6 probootstrap-animate mb-3">
+            <a href="australia.html" class="probootstrap-thumbnail">
+              <img src="assets/images/img_3.jpg" class="img-fluid">
+              <h3>Australia</h3>
+            </a>
+          </div>
+          <div class="col-lg-3 col-md-6 probootstrap-animate mb-3">
+            <a href="#" class="probootstrap-thumbnail">
+              <img src="assets/images/img_4.jpg" class="img-fluid">
+              <h3>Japan</h3>
+            </a>
+          </div>
+        </div>
+        <a href="australia.html">
+                <button class="btn btn-primary btn-block" style="margin-top: 3em">Book Now</button>
+              </a>
+      </div>
+    </section>
+    
+  
+
+    <section class="probootstrap_section" id="section-services">
+      <div class="container">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Our Services</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+        
+
+    <section class="probootstrap-section-half d-md-flex" id="section-about">
+      <div class="probootstrap-image probootstrap-animate" data-animate-effect="fadeIn" style="background-image: url(assets/images/img_2.jpg)"></div>
+      <div class="probootstrap-text">
+        <div class="probootstrap-inner probootstrap-animate" data-animate-effect="fadeInRight">
+          <h2 class="heading mb-4">Customer Service</h2>
+          <p>Customer happiness is only output of our company and to get this we must provide best service so that your travel to any place get full fill and you become happy and also check it out our prior service of our company.</p>
+          <p><a href="#section-services" class="btn btn-primary">Read More</a></p>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="probootstrap-section-half d-md-flex">
+      <div class="probootstrap-image order-2 probootstrap-animate" data-animate-effect="fadeIn" style="background-image: url(assets/images/img_4.jpg)"></div>
+      <div class="probootstrap-text order-1">
+        <div class="probootstrap-inner probootstrap-animate" data-animate-effect="fadeInLeft">
+          <h2 class="heading mb-4">Payment Options</h2>
+          <p>Payments must be done before your trips as we can make every thing posiible for you before you visit. The payment option you have is cash through a agent or online payment as most of this is preferred.</p>
+          <p><a href="#section-home" class="btn btn-primary">Book</a></p>
+        </div>
+      </div>
+    </section>
+    <section class="probootstrap_section" id="section-travel">
+      <div class="container">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Places That Always Like</h2>
+          </div>
+        </div>
+        
+        <div class="row probootstrap-animate">
+          <div class="col-md-12">
+            <div class="owl-carousel js-owl-carousel">
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-teatro-de-la-caridad"></span>
+                <em>Teatro de la Caridad</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-royal-museum-of-the-armed-forces"></span>
+                <em>Royal Museum of the Armed Forces</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-parthenon"></span>
+                <em>Parthenon</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-marina-bay-sands"></span>
+                <em>Marina Bay Sands</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-samarra-minaret"></span>
+                <em>Samarra Minaret</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-chiang-kai-shek-memorial"></span>
+                <em>Chiang Kai Shek Memorial</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-heuvelse-kerk-tilburg"></span>
+                <em>Heuvelse Kerk Tilburg</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-cathedral-of-cordoba"></span>
+                <em>Cathedral of Cordoba</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-london-bridge"></span>
+                <em>London Bridge</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-taj-mahal"></span>
+                <em>Taj Mahal</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-leaning-tower-of-pisa"></span>
+                <em>Leaning Tower of Pisa</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-burj-al-arab"></span>
+                <em>Burj al Arab</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-gate-of-india"></span>
+                <em>Gate of India</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-osaka-castle"></span>
+                <em>Osaka Castle</em>
+              </a>
+              <a class="probootstrap-slide" href="#">
+                <span class="flaticon-statue-of-liberty"></span>
+                <em>Statue of Liberty</em>
+              </a>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="probootstrap_section bg-light">
+      <div class="container">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Services</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="media probootstrap-media d-flex align-items-stretch mb-4 probootstrap-animate">
+              <div class="probootstrap-media-image" style="background-image: url(assets/images/img_1.jpg)">
+              </div>
+              <div class="media-body">
+                <h5 class="mb-3">Customer First Prior</h5>
+                <p>Customer priority comes first of our company not the money or not any other stuff and serve best thing to our customer is our goal. </p>
+              </div>
+            </div>
+
+            <div class="media probootstrap-media d-flex align-items-stretch mb-4 probootstrap-animate">
+              <div class="probootstrap-media-image" style="background-image: url(assets/images/img_2.jpg)">
+              </div>
+              <div class="media-body">
+                <h5 class="mb-3">Safety And Secure</h5>
+                <p>As for travel the first two thing comes in mind is safety and security of our and belong is completly handled by our service providers and feel free about this concerns. </p>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            
+            <div class="media probootstrap-media d-flex align-items-stretch mb-4 probootstrap-animate">
+              <div class="probootstrap-media-image" style="background-image: url(assets/images/img_4.jpg)">
+              </div>
+              <div class="media-body">
+                <h5 class="mb-3">Accomodation</h5>
+                <p>This one depends upon you with your expensive lifestyle if low then low budgets rooms and high then not a problem but theres. </p>
+              </div>
+            </div>
+
+            <div class="media probootstrap-media d-flex align-items-stretch mb-4 probootstrap-animate">
+              <div class="probootstrap-media-image" style="background-image: url(assets/images/img_5.jpg)">
+              </div>
+              <div class="media-body">
+                <h5 class="mb-3">Food And Health</h5>
+                <p>With travelling some time health may insecure with food so its our service to provide best food and healthy too so that you feel amazing during. </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="probootstrap-animate probootstrap_section" id="comehere">
+      <div style="text-align: center">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 id="come" class="display-4 border-bottom probootstrap-section-heading">Gallery</h2>
+          </div>
+        </div>
+    </div>
+    <div style="text-align: center">
+    <div class="navigation">
+      <a data-filter="all" class="button active">All</a>
+      <a data-filter="one" class="button">Asia</a>
+      <a data-filter="two" class="button">Europe</a>
+      <a data-filter="three" class="button">America</a>
+    </div>
+    <div class="ImageContainer">
+      <div class="filter one">
+        <img src="img1.jpg">
+        
+      </div>
+      <div class="filter one">
+        <img src="img2.jpg">
+        
+      </div>
+      <div class="filter one">
+        <img src="img3.jpg">
+        
+      </div>
+      <div class="filter one">
+        <img src="img4.jpg">
+        
+      </div>
+      <div class="filter two">
+        <img src="img5.jpg">
+        
+      </div>
+      <div class="filter two">
+        <img src="img6.jpg">
+        
+      </div>
+      <div class="filter two">
+        <img src="img7.jpg">
+        
+      </div>
+      <div class="filter two three one">
+        <img src="img8.jpg">
+        
+      </div>
+      <div class="filter three">
+        <img src="img9.jpg">
+        
+      </div>
+      <div class="filter three">
+        <img src="img10.jpg">
+        
+      </div>
+      <div class="filter three">
+        <img src="img11.jpg">
+        
+      </div>
+      <div class="filter three one">
+        <img src="img12.jpg">
+        
+      </div>
+    </div>
+  </div>
+    </section>
+    <section class="probootstrap_section bg-light" id="section-contact">
+      <div class="container">
+        <div class="row text-center mb-5 probootstrap-animate">
+          <div class="col-md-12">
+            <h2 class="display-4 border-bottom probootstrap-section-heading">Get in Touch</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 probootstrap-animate">
+            <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+            <div class="row">
+              <div class="col-md-6">
+                <ul class="probootstrap-contact-details">
+                  <li>
+                    <span class="text-uppercase"><span class="ion-paper-airplane"></span> Email</span>
+                    Nihar: 18it039@gmail.com
+                    Abhishek: 18it041@gmail.com
+                  </li>
+                  <li>
+                    <span class="text-uppercase"><span class="ion-ios-telephone"></span> Phone</span>
+                    Nihar: +91 9723068368
+                  </li>
+                </ul>
+              </div>
+              <div class="col-md-6">
+                <ul class="probootstrap-contact-details">
+                  <li>
+                    <span class="text-uppercase"><span class="ion-ios-telephone"></span> Mobile</span>
+                    Abhishek: +91 6353266085
+                  </li>
+                  <li>
+                    <span class="text-uppercase"><span class="ion-location"></span> Address</span>
+                    Charusat, Changa <br>
+                    709 Room Number <br>
+                    Valetva, Gujarat
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6  probootstrap-animate">
+            <form method="post" class="probootstrap-form probootstrap-form-box mb60">
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="fname" class="sr-only sr-only-focusable">First Name</label>
+                    <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="lname" class="sr-only sr-only-focusable">Last Name</label>
+                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email" class="sr-only sr-only-focusable">Email</label>
+                <input type="email" class="form-control" id="pemail" name="email" placeholder="Email">
+              </div>
+              <div class="form-group">
+                <label for="message" class="sr-only sr-only-focusable">Message</label>
+                <textarea cols="30" rows="10" class="form-control" id="pmessage" name="message" placeholder="Write your message"></textarea>
+              </div>
+              <div class="form-group">
+                <input type="submit" class="btn btn-primary" id="psubmit" name="submit" value="Send Message">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <footer class="probootstrap_section probootstrap-border-top">
+      <div class="container">
+        <div class="row mb-5">
+          <div class="col-md-8">
+            <h3 class="probootstrap_font-18 mb-3">Quick Links</h3>
+            <ul class="list-unstyled">
+              <li><a href="#section-home">Home</a></li>
+              <li><a href="#section-about">About</a></li>
+              <li><a href="#section-services">Services</a></li>
+              <li><a href="#section-contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="col-md-2">
+            <h3 class="probootstrap_font-18 mb-3">Book My Trip</h3>
+            <ul class="list-unstyled">
+              <li><a href="company.html">Made By Nihar</a></li>
+              <li><a href="company.html">Made By Abhishek</a></li>
+            </ul>
+          </div>
+          
+      </div>
+    </footer>
+
+    
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/popper.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <script src="assets/js/bootstrap-datepicker.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/jquery.easing.1.3.js"></script>
+    <script src="assets/js/select2.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/login.js"></script>
+    
+    <script>
+      firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+          var userID = firebase.auth().currentUser.uid;
+          firebase.database().ref('Users/' + userID).once('value').then(function(snapshot){
+            if(snapshot.val())
+            {
+
+            }
+          });
+      }
+    });
+    </script>
+
+    </body>
+</html>

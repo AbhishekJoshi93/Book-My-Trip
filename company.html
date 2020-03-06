@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Retrive data</title>
+	<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.9.2/firebase-storage.js"></script>
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyCI6hI7q1I6gFX--J3bxh8ZFT_B0VJwTL4",
+    authDomain: "sgp-website-project.firebaseapp.com",
+    databaseURL: "https://sgp-website-project.firebaseio.com",
+    projectId: "sgp-website-project",
+    storageBucket: "sgp-website-project.appspot.com",
+    messagingSenderId: "963241797929",
+    appId: "1:963241797929:web:e1e2518a5eb70c93f92f38",
+    measurementId: "G-L73XPJGB9V"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics(); 
+
+  var database=firebase.database();
+  var ref=database.ref('Flights');
+  ref.on('value',gotData);
+   function gotData(data) {
+  // console.log(data.val());
+  	// document.write(JSON.stringify(data.val(),null,4));}
+  	// document.write(print(data.val()));}
+document.getElementById('flightsp').innerHTML=print(data.val());}
+
+  var ref2=database.ref('Feed Back');
+  ref2.on('value',gotData2);
+
+
+function gotData2(data) {
+  // console.log(data.val());
+  	// document.write(JSON.stringify(data.val(),null,4));}
+  	// document.write(print(data.val()));}
+document.getElementById('feedbackp').innerHTML=print2(data.val());}
+
+
+var ref3=database.ref('User Booking');
+  ref3.on('value',gotData3);
+
+
+function gotData3(data) {
+  // console.log(data.val());
+    // document.write(JSON.stringify(data.val(),null,4));}
+    // document.write(print(data.val()));}
+document.getElementById('booking').innerHTML=print3(data.val());}
+
+  	
+var print3 = function(o){
+    var str='';
+    for(var p in o){
+        if(typeof o[p] == 'string'){
+            str+=  p + ': ' + o[p]+' </br>';
+        }else{
+            str+= '<br>Booking: '+p + ': </br>' + print(o[p]) ;
+        }
+    }
+    return str;
+  }
+    var print2 = function(o){
+    var str='';
+    for(var p in o){
+        if(typeof o[p] == 'string'){
+            str+=  p + ': ' + o[p]+' </br>';
+        }else{
+            str+= '<br>Feed Back: '+p + ': </br>' + print(o[p]) ;
+        }
+    }
+    return str;
+	}
+
+
+	var print = function(o){
+    var str='';
+    for(var p in o){
+        if(typeof o[p] == 'string'){
+            str+=  p + ': ' + o[p]+' </br>';
+        }else{
+            str+= '<br>Flights: '+p + ': </br>' + print(o[p]) ;
+        }
+    }
+    return str;
+	}
+
+
+</script>
+<style type="text/css">
+	p{
+		margin-top: 2%;
+		margin-left: 2%;
+		width: 30vw;
+		overflow-y: scroll;
+		height: 50vh;
+		border-radius: 2%;
+		border: 2px solid black;
+		box-shadow: 2% 2% red;
+		float: left;
+    background-color: red;
+    color: white;
+    text-align: center;
+	}
+</style>
+</head>
+<body>
+<div class="div">
+  <p id="flightsp">Flights</p>
+	<p id="feedbackp">Feed Back</p>
+  <p id="booking">Booking</p> 
+</div>
+</body>
+</html>
